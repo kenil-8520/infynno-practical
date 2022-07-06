@@ -1,52 +1,61 @@
 import json
 from datetime import datetime
 from datetime import date
-from re import X
+import module
 
 f = open('data.json')
 data = json.loads(f.read())
 
 # print(data)
 
-
-def date_format(date):
-    datetimeobject = datetime.strptime(date,"%d/%m/%Y")
-    new_format_1 = datetimeobject.strftime("%d %b %Y")
-    formate = new_format_1.split(" ")
-    if int(formate[0]) > 0 and int(formate[0]) == 1:
-        formate[0] = str(formate[0])+"st"
-    elif int(formate[0]) > 1 and int(formate[0]) == 2:
-        formate[0] = str(formate[0])+"nd"
-    elif int(formate[0]) > 2 and int(formate[0]) == 3:
-        formate[0] = str(formate[0])+"rd"
-    elif int(formate[0]) > 3 and int(formate[0]) < 21 or int(formate[0]) > 23:
-        formate[0] = str(formate[0])+"th"
-    elif int(formate[0]) > 20 and int(formate[0]) == 21:
-        formate[0] = str(formate[0])+"st"
-    elif int(formate[0]) > 21 and int(formate[0]) == 22:
-        formate[0] = str(formate[0])+"nd"
-    elif int(formate[0]) > 22 and int(formate[0]) == 23:
-        formate[0] = str(formate[0])+"st"
-
-    return " ".join(formate)
-
-
-def fage(born):
-    born = datetime.strptime(born, "%d/%m/%Y").date()
-    today = date.today()
-    age = today.year - born.year - ((today.month, today.day) < (born.month,born.day))
-    return age
-
 for i in range(0, len(data["data"])):
-    data['data'][i]["Age"] = fage(data['data'][i]["DOB"])
+    data['data'][i]["age"] = module.fage(data['data'][i]["DOB"])
 
 
-for i in data["data"][0:5]:
+# for i in range(len(data["data"])):
+#     data["data"][i]["age"] = module.date_format(data["data"][i]["DOB"])
+for i in data["data"][:5]:
     print(i)
 
-print()
-print("N for next AND P for Previous")
-n = input("enter P OR N = ")
+
+c = 0
+def step(c):
+    for i in data["data"][c:c+5]:
+        print(i)
+    return
 
 
+while True:
+    print()
+    print("P, 1, 2, 3, 4, 5, N")
+    print()
+    n = input("enter P OR N = ")
+
+    if n == "n" or n == "N":
+        c +=5
+        step(c)
+        if c == 25:
+            print("in the last page ")
+    elif n == "p" or n == "P":
+        c -=5
+        step(c)
+        if c < 0:
+            print("in 1st page ")
+    elif n == "1":
+        for i in data["data"][:5]:
+            print(i)
+    elif n == "2":
+        for i in data["data"][5:10]:
+            print(i)
+    elif n == "3":
+        for i in data["data"][10:15]:
+            print(i)
+    elif n == "4":
+        for i in data["data"][15:20]:
+            print(i)
+    elif n == "5":
+        for i in data["data"][20:25]:
+            print(i)
+    else:
+        print("invalid entery")
 
