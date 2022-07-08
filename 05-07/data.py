@@ -20,8 +20,8 @@ c = 0
 def sort_age():
     l = data["data"].copy()
     l.sort(key = lambda x:x ['name'])
-    for i in data["data"]:
-        print()
+    for i in l:
+        print(i)
 
 def step(c):
     for i in data["data"][c:c+5]:
